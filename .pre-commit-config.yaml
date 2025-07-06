@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1100']
+        exclude: ^backend/test/assets
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.19.0
+    hooks:
+      - id: typos
+        files: '.*\.py$'  # Only check Python files
+        args: []
+        # Exclude specific config files from the typos check
+        # These files contain domain-specific terms or acronyms (e.g., 'FOF') 
+        # that are intentionally used and would otherwise be flagged as typos.
+        # exclude: >-
+        #     (?x)^(
+        #         config/acronyms_config\.py|
+        #     )$
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        stages: [commit]
+        language: system
+        entry: ruff check --fix --ignore F401 .
+        types_or: [python, jupyter]
+      - id: ruff-format
+        name: ruff format
+        stages: [commit]
+        language: system
+        entry: ruff format .
+        types_or: [python, jupyter]

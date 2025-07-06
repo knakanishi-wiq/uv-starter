@@ -1,0 +1,102 @@
+site_name: UV Starter Documentation
+site_description: Modern Python project starter template using UV
+site_author: Kenichi Nakanishi
+site_url: https://knakanishi.github.io/uv-starter/
+
+repo_name: knakanishi/uv-starter
+repo_url: https://github.com/knakanishi/uv-starter
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: blue
+      accent: blue
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: blue
+      accent: blue
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.highlight
+    - search.share
+    - toc.follow
+    - content.action.edit
+    - content.action.view
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - autorefs
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: knakanishi
+      repo: uv-starter
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - UV Package Management: uv.md
+    - Development Toolchain: toolchain.md
+    - Configuration Management: configuration.md
+  - CI/CD:
+    - GitHub Actions: github-actions.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/knakanishi/uv-starter
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/uv-starter/
+
+copyright: Copyright &copy; 2024 Kenichi Nakanishi

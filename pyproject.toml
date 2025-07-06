@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/uv_starter"]
+
+[project]
+name = "uv_starter"
+version = "0.1.0"
+description = "UV Starter Project"
+authors = [
+    {name = "Kenichi Nakanishi", email = "knakanishi@woolworths.com.au"},
+]
+readme = "README.md"
+requires-python = ">=3.11, <3.12"
+dependencies = [
+    "loguru>=0.7.3",
+    "mkdocs-material>=9.6.15",
+    "pydantic>=2.0",
+    "pydantic-settings>=2.10.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "mkdocs-material>=9.4.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.1.1",
+    "ruff>=0.11.2",
+]
