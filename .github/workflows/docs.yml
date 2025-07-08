@@ -19,6 +19,7 @@ permissions:
   pages: write
   id-token: write
 
+# If multiple workflows are kicked off, only one will run at a time.
 concurrency:
   group: "pages"
   cancel-in-progress: false
