@@ -18,10 +18,13 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11, <3.12"
 dependencies = [
+    "fastapi>=0.116.0",
     "loguru>=0.7.3",
     "mkdocs-material>=9.6.15",
     "pydantic>=2.0",
     "pydantic-settings>=2.10.1",
+    "pyhamcrest>=2.1.0",
+    "ruff>=0.12.2",
 ]
 
 [dependency-groups]
