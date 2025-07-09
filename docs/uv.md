@@ -54,14 +54,20 @@ uv remove --group dev pytest-mock
 ## Running Code
 
 ```bash
-# Run a Python script
-uv run src/uv-starter/hello.py
+# Run a Python module
+uv run -m uv_starter.demo_module
+
+# Run FastAPI development server
+uv run fastapi dev src/uv_starter/api/main.py
 
 # Run a module
 uv run -m pytest
 
 # Run with environment variables
-uv run --env-file .env.production python script.py
+uv run --env-file .env.production uvicorn uv_starter.api.main:app
+
+# Run FastAPI with uvicorn directly
+uv run uvicorn uv_starter.api.main:app --reload --port 8000
 ```
 
 ## Virtual Environment Management
@@ -120,6 +126,8 @@ dev = [
 | `uv add <package>` | Add a new dependency |
 | `uv remove <package>` | Remove a dependency |
 | `uv run <command>` | Run command in virtual environment |
+| `uv run fastapi dev <module>` | Run FastAPI development server |
+| `uv run uvicorn <module>:app` | Run ASGI application with uvicorn |
 | `uv lock` | Update lock file |
 | `uv tree` | Show dependency tree |
 | `uv pip list` | List installed packages |

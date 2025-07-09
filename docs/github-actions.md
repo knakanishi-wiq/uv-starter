@@ -19,6 +19,34 @@ Automatically builds and deploys documentation to GitHub Pages.
 - Deploys to GitHub Pages with proper permissions
 - Only deploys from main branch
 
+**Note:** Deployment is currently disabled in the workflow file.
+
+### Linting Workflow (`.github/workflows/lint.yml`)
+
+Runs code quality checks using pre-commit hooks.
+
+**Triggers:**
+- All pushes and pull requests
+
+**Features:**
+- Runs pre-commit hooks including Ruff formatting and linting
+- Uses UV for fast dependency installation
+- Caches pre-commit environments for faster runs
+
+### Testing Workflow (`.github/workflows/test.yml`)
+
+Runs the complete test suite including API tests.
+
+**Triggers:**
+- All pushes and pull requests
+
+**Features:**
+- Runs pytest with coverage reporting
+- Includes both unit tests and FastAPI API tests
+- Uploads coverage artifacts
+- Tests the FastAPI endpoints using TestClient
+- Uses UV for fast dependency installation
+
 **Setup Requirements:**
 1. Enable GitHub Pages in repository settings
 2. Set Pages source to "GitHub Actions"
@@ -104,9 +132,9 @@ Comprehensive feature request form with:
 
 ## Setting Up Additional Workflows
 
-### CI Testing Workflow
+### Current Test Workflow
 
-Create `.github/workflows/ci.yml`:
+The existing `.github/workflows/test.yml` provides comprehensive testing:
 
 ```yaml
 name: CI
@@ -144,13 +172,44 @@ jobs:
       - name: Run formatting check
         run: uv run ruff format --check .
       
-      - name: Run tests
-        run: uv run pytest --cov=src --cov-report=xml
+      - name: Run tests with API coverage
+        run: uv run pytest --cov=src/uv_starter --cov-report=xml
+      
+      - name: Test API endpoints
+        run: uv run pytest tests/api/ -v
       
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.xml
+```
+
+**API Testing Features:**
+- Tests FastAPI endpoints using TestClient
+- Validates API request/response schemas with Pydantic
+- Includes coverage reporting for API code
+- Tests both unit functionality and API integration
+
+**Test Structure:**
+- API tests located in `tests/api/`
+- Unit tests in `tests/unit_tests/`
+- Both are run together in the CI pipeline
+
+### FastAPI Testing in CI
+
+The project includes comprehensive FastAPI testing in GitHub Actions:
+
+```python
+# Example API test that runs in CI
+from fastapi.testclient import TestClient
+from uv_starter.api.main import app
+
+client = TestClient(app)
+
+def test_api_endpoint():
+    response = client.post("/", json={"num_1": 2, "num_2": 3})
+    assert response.status_code == 200
+    assert response.json() == {"message": "the sum is 5"}
 ```
 
 ### Release Workflow

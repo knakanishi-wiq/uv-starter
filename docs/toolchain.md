@@ -54,6 +54,54 @@ make lint     # Check linting and formatting
 make format   # Auto-format code
 ```
 
+## FastAPI Development
+
+### FastAPI Framework
+
+[FastAPI](https://fastapi.tiangolo.com/) is a modern, fast web framework for building APIs with Python based on standard Python type hints.
+
+#### Features
+- **High performance**: On par with NodeJS and Go
+- **Fast to code**: Increase development speed by 200% to 300%
+- **Automatic documentation**: Interactive API docs with Swagger UI and ReDoc
+- **Type safety**: Full integration with Pydantic for request/response validation
+
+#### Running the API
+
+```bash
+# Development server with auto-reload
+uv run fastapi dev src/uv_starter/api/main.py
+
+# Production server
+uv run uvicorn uv_starter.api.main:app --host 0.0.0.0 --port 8000
+
+# With custom configuration
+uv run uvicorn uv_starter.api.main:app --reload --host 127.0.0.1 --port 8080
+```
+
+#### API Documentation
+
+FastAPI automatically generates interactive documentation:
+- **Swagger UI**: Available at `/docs` when server is running
+- **ReDoc**: Available at `/redoc` for alternative documentation view
+
+#### Testing FastAPI Applications
+
+FastAPI includes a test client based on Starlette's TestClient:
+
+```python
+# tests/api/test_api.py
+from fastapi.testclient import TestClient
+from uv_starter.api.main import app
+
+client = TestClient(app)
+
+def test_api_endpoint():
+    response = client.post("/", json={"num_1": 2, "num_2": 3})
+    assert response.status_code == 200
+    assert response.json() == {"message": "the sum is 5"}
+```
+
 ### pytest - Testing Framework
 
 [pytest](https://pytest.org/) is a mature testing framework that makes it easy to write simple and scalable tests.
@@ -81,7 +129,10 @@ addopts =
 uv run pytest
 
 # Run with coverage
-uv run pytest --cov=src --cov-report=html
+uv run pytest --cov=src/uv_starter --cov-report=html
+
+# Run API tests specifically
+uv run pytest tests/api/ -v
 
 # Run specific test file
 uv run pytest tests/test_example.py
@@ -97,14 +148,14 @@ make pytest-integration  # Run integration tests
 #### Test Structure
 
 ```python
-# tests/test_example.py
+# tests/unit_tests/test_demo_module.py
 import pytest
-from uv_starter.hello import main
+from uv_starter.demo_module import add
 
-def test_main():
-    """Test the main function."""
-    result = main()
-    assert result is not None
+def test_add():
+    """Test the add function."""
+    result = add(2, 3)
+    assert result == 5
 
 @pytest.fixture
 def sample_data():

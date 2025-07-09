@@ -11,7 +11,10 @@ cd uv-starter
 make setup
 
 # Run the example
-uv run src/uv-starter/hello.py
+uv run -m uv_starter.demo_module
+
+# Start the API server
+uv run fastapi dev src/uv_starter/api/main.py
 
 # Run tests
 make pytest
@@ -28,6 +31,9 @@ This template includes a production-ready development environment:
 - **[UV](https://docs.astral.sh/uv/)** - Ultra-fast Python package manager (replaces pip/poetry)
 - **Lock file** (`uv.lock`) for reproducible builds
 - **Dependency groups** for dev/test separation
+
+### **API Development**
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern, fast web framework for building APIs
 
 ### **Code Quality & Testing**
 - **[Ruff](https://docs.astral.sh/ruff/)** - Lightning-fast linter and formatter
@@ -50,10 +56,15 @@ This template includes a production-ready development environment:
 ## 📁 Project Structure
 
 ```
-├── src/uv-starter/          # Main package code
-│   ├── hello.py            # Example module
+├── src/uv_starter/          # Main package code
+│   ├── api/                # FastAPI application
+│   │   ├── __init__.py     
+│   │   └── main.py         # API endpoints
+│   ├── demo_module.py      # Example module
 │   └── config.py           # Settings management
 ├── tests/                  # Test files
+│   ├── api/                # API tests
+│   └── unit_tests/         # Unit tests
 ├── docs/                   # Documentation source
 ├── .github/                # GitHub Actions & templates
 ├── pyproject.toml          # Project configuration

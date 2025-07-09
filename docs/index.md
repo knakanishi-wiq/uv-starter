@@ -13,6 +13,11 @@ UV Starter provides a production-ready foundation for Python projects, featuring
 - Lock file support for reproducible builds
 - Dependency groups for clean separation
 
+### 🌐 **FastAPI Web Framework**
+- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern, fast web framework for building APIs
+- Interactive API documentation with Swagger UI
+- Type-safe request/response handling with Pydantic
+
 ### 🛠️ **Complete Development Toolchain**
 - **[Ruff](https://docs.astral.sh/ruff/)** - Lightning-fast linting and formatting
 - **[pytest](https://pytest.org/)** - Modern testing framework with coverage
@@ -45,8 +50,11 @@ cd my-project
 # Setup development environment
 make setup
 
-# Run the example
-uv run src/uv-starter/hello.py
+# Run the demo module
+uv run -m uv_starter.demo_module
+
+# Start the FastAPI server
+uv run fastapi dev src/uv_starter/api/main.py
 
 # Run tests
 make pytest
@@ -58,10 +66,15 @@ make lint
 ## Project Structure
 
 ```
-├── src/uv-starter/          # Main package code
-│   ├── hello.py            # Example module
+├── src/uv_starter/          # Main package code
+│   ├── api/                # FastAPI application
+│   │   ├── __init__.py     
+│   │   └── main.py         # API endpoints
+│   ├── demo_module.py      # Example module
 │   └── config.py           # Settings management
 ├── tests/                  # Test files
+│   ├── api/                # API tests
+│   └── unit_tests/         # Unit tests
 ├── docs/                   # Documentation source
 ├── .github/                # GitHub Actions & templates
 ├── pyproject.toml          # Project configuration

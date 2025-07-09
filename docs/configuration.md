@@ -13,7 +13,7 @@ The configuration system provides:
 
 ## Configuration File
 
-The main configuration is in `src/uv-starter/config.py`:
+The main configuration is in `src/uv_starter/config.py`:
 
 ```python
 from functools import lru_cache
@@ -185,6 +185,72 @@ class Settings(BaseSettings):
     api_port: int = 8000
     api_workers: int = 1
     api_reload: bool = False
+```
+
+### FastAPI Application Configuration
+
+The project includes a FastAPI application that can be configured through environment variables:
+
+```python
+from uv_starter.config import settings
+from fastapi import FastAPI
+
+# Create FastAPI app with configuration
+app = FastAPI(
+    title=settings.app_name,
+    debug=settings.debug,
+)
+
+# Use configuration for uvicorn server
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "uv_starter.api.main:app",
+        host=settings.api_host,
+        port=settings.api_port,
+        reload=settings.api_reload,
+        workers=settings.api_workers if not settings.api_reload else 1,
+    )
+```
+
+#### Running FastAPI with Configuration
+
+```bash
+# Development server (auto-reload enabled)
+uv run fastapi dev src/uv_starter/api/main.py
+
+# Production server with environment variables
+export API_HOST=0.0.0.0
+export API_PORT=8000
+export API_WORKERS=4
+uv run uvicorn uv_starter.api.main:app --host $API_HOST --port $API_PORT --workers $API_WORKERS
+
+# Using .env file
+echo "API_HOST=127.0.0.1" >> .env
+echo "API_PORT=8080" >> .env
+uv run uvicorn uv_starter.api.main:app --host 127.0.0.1 --port 8080
+```
+
+#### FastAPI-Specific Settings
+
+Add these to your Settings class for FastAPI applications:
+
+```python
+class Settings(BaseSettings):
+    # FastAPI settings
+    cors_origins: list[str] = Field(default=["*"], description="CORS allowed origins")
+    cors_methods: list[str] = Field(default=["*"], description="CORS allowed methods")
+    cors_headers: list[str] = Field(default=["*"], description="CORS allowed headers")
+    
+    # Security settings
+    secret_key: str = Field(default="dev-secret-key", description="Secret key for JWT")
+    algorithm: str = Field(default="HS256", description="JWT algorithm")
+    access_token_expire_minutes: int = Field(default=30, description="Token expiration")
+    
+    # API documentation
+    docs_url: str = Field(default="/docs", description="Swagger UI URL")
+    redoc_url: str = Field(default="/redoc", description="ReDoc URL")
+    openapi_url: str = Field(default="/openapi.json", description="OpenAPI schema URL")
 ```
 
 ### Security Settings
